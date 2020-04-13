@@ -1,5 +1,5 @@
 'use strict';
-const bcrypt = require('bcrypptjs');
+const bcrypt = require('bcryptjs');
 
 function makeUsersArray() {
   return [
@@ -240,7 +240,6 @@ function seedUsers(db, users) {
   }));
   return db.into('thingful_users').insert(preppedUsers)
     .then(() => 
-    //update the auto sequence to stay in sync
       db.raw(
         'SELECT setval (\'thingful_users_id_seq\', ?)',
         [users[users.length -1].id]
@@ -273,7 +272,7 @@ function seedThingsTables(db, users, things, reviews=[]) {
       [things[things.length -1].id],
     )
     if (reviews.length) {
-      await trx.into('thingful_reviews').insert(things)
+      await trx.into('thingful_reviews').insert(reviews)
       await trx.raw(
         `SELECT setval('thingful_reviews_id_seq', ?)`,
         [reviews[reviews.length -1].id],
